@@ -6,11 +6,14 @@ defmodule Discuss.AuthController do
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     user_params = %{token: auth.credentials.token, email: auth.info.email, provider: "github"} 
-    # provider is in the form of an atom, which does not pass validation, and I don't know how 
-    # to easily convert to a string without introducing the possibility of run-time errors. 
-    # Replacing with "github" for now
     changeset = User.changeset(%User{}, user_params)
     sign_in(conn, changeset)
+  end
+
+  def sign_out(conn, _params) do
+    conn
+    |> configure_session(drop: true)
+    |> redirect(to: topic_path(conn, :index))
   end
 
   defp sign_in(conn, changeset) do

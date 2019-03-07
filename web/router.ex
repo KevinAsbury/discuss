@@ -15,26 +15,15 @@ defmodule Discuss.Router do
   end
 
   scope "/", Discuss do
-    pipe_through :browser # Use the default browser stack
-
-    # get "/", TopicController, :index
-    # get "/topics/new", TopicController, :new
-    # post "/topics", TopicController, :create
-    # get "/topics/:id/edit", TopicController, :edit
-    # put "/topics/:id", TopicController, :update
-    # delete "/topics/:id", TopicController, :delete
+    pipe_through :browser
     resources "/", TopicController    
   end
 
   scope "/auth", Discuss do
     pipe_through :browser
 
+    get "/signout", AuthController, :sign_out
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Discuss do
-  #   pipe_through :api
-  # end
 end
