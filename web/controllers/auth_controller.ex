@@ -18,7 +18,7 @@ defmodule Discuss.AuthController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "Welcome")
-        |> put_session(:user, user.id)
+        |> put_session(:user_id, user.id)
         |> redirect(to: topic_path(conn, :index))
       {:error, _reason} ->
         conn
